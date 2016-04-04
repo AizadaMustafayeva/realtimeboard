@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Doc";
+}
+
+<script>
+    var docId = @ViewBag.docId;
+</script>
+
+<div ng-controller="currentDocController as ctrl" ng-init="ctrl.init()">
+    <div class="row">
+        <div class="col-md-9">
+            <h2><a ng-click="ctrl.exit()" href="/doc" class="btn btn-default"><span class="glyphicon glyphicon-menu-left text-danger" aria-hidden="true"></span></a> {{ctrl.title}}</h2>
+            <div text-angular ng-model="ctrl.currentDoc" name="demo-editor" ta-text-editor-class="border-around container" ta-html-editor-class="border-around"></div>
+            <div>
+                <button class="btn btn-primary btn-lg" ng-click="ctrl.submit()">Submit</button> 
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id="accordion1" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion1" href="#dvUsers" aria-expanded="true" aria-controls="dvUsers">
+                                Users
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="dvUsers" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body" style="min-height:150px; max-height:250px; overflow:scroll">
+                            <ul class="list-group">
+                                <li ng-repeat="item in ctrl.users" class="list-group-item">
+                                    {{item.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordion2" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion2" href="#dvComments" aria-expanded="true" aria-controls="dvComments">
+                                Comments
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="dvComments" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <!--List of Comments-->
+                            <div style="min-height:350px; max-height:550px; overflow:scroll">
+                                <ul class="list-group">
+                                    <li ng-repeat="item in ctrl.comments" class="list-group-item" ng-class="{'list-group-item-info' : item.self}">
+                                        <strong>{{item.owner.name}}</strong>
+                                        <p>{{item.message}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search for..." ng-model="ctrl.commentText">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="ctrl.setCommit()">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+

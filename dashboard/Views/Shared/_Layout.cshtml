@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html ng-app="dashboardModule">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="z-index:5000">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            @Html.Partial("_AppMenuItems")
+            <div id="dv_main" class="col-md-8" style="padding-left:0px">
+                <div class="body-content">
+                    @RenderBody()
+                </div>
+            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <script type="text/javascript">
+                    $('#dv_main').removeClass('col-md-12').addClass('col-md-8');
+                </script>
+            }
+            else
+            {
+                <script type="text/javascript">
+                    $('#dv_main').removeClass('col-md-8').addClass('col-md-12');
+                </script>
+            }
+        </div>
+        <!--
+        <footer class="navbar-fixed-bottom">
+            <hr />
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>-->
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <!--Angular-->
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-resource.min.js"></script>
+    <!--For reach text editor-->
+    <script src="~/Scripts/textAngular-rangy.min.js"></script>
+    <script src="~/Scripts/textAngular-sanitize.min.js"></script>
+    <script src="~/Scripts/textAngular.min.js"></script>
+    <!--App-->
+    <script src="~/Scripts/App/App.js"></script>
+    <script src="~/Scripts/App/dragItemDirective.js"></script>
+    <script src="~/Scripts/App/PersonModule/personModule.js"></script>
+    <script src="~/Scripts/App/PersonModule/Controllers/personController.js"></script>
+    <script src="~/Scripts/App/PersonModule/Services/personService.js"></script>
+    <script src="~/Scripts/App/MainModule/MainModule.js"></script>
+    <script src="~/Scripts/App/MainModule/Controllers/mainController.js"></script>
+    <script src="~/Scripts/App/GroupModule/GroupModule.js"></script>
+    <script src="~/Scripts/App/GroupModule/Services/GroupService.js"></script>
+    <script src="~/Scripts/App/GroupModule/Controllers/GroupController.js"></script>
+    <script src="~/Scripts/App/DocModule/DocModule.js"></script>
+    <script src="~/Scripts/App/DocModule/Services/DocService.js"></script>
+    <script src="~/Scripts/App/DocModule/Controllers/AddDocController.js"></script>
+    <script src="~/Scripts/App/DocModule/Controllers/DocsController.js"></script>
+    <script src="~/Scripts/App/DocModule/Controllers/CurrentDocController.js"></script>
+    <script src="~/Scripts/App/BoardModule/BoardModule.js"></script>
+    <script src="~/Scripts/App/BoardModule/Services/boardService.js"></script>
+    <script src="~/Scripts/App/BoardModule/Controllers/boardListController.js"></script>
+    <script src="~/Scripts/App/BoardModule/Controllers/boardController.js"></script>
+</body>
+
+
+
+</html>

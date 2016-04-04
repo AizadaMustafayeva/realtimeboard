@@ -1,0 +1,39 @@
+﻿@{
+    //ViewBag.Title = "Board";
+}
+
+<script>
+    var boardId = @ViewBag.boardId;
+</script>
+
+<div style="margin: 5px 5px 5px 5px; width:1350px; height:850px; z-index:1">
+    <div ng-controller="boardController as brdCtrl" ng-init="brdCtrl.init()" style="height:100%; width:100%">
+        <h2 style="position:relative;z-index:{{brdCtrl.getzIndexPanel()}}">Name: @ViewBag.Title</h2>
+        <div class="btn-group" role="group" aria-label="..." style="z-index:{{brdCtrl.getzIndexPanel()}}">
+            <button class="btn btn-default text-warning btn-lg" ng-click="brdCtrl.newComment()"><span class="glyphicon glyphicon-list-alt"></span></button>
+            <button class="btn btn-default text-warning btn-lg" ng-click="brdCtrl.newStick()"><span class="glyphicon glyphicon-file"></span></button>
+            <button class="btn btn-default text-info btn-lg" ng-click="brdCtrl.submit()"><span class="glyphicon glyphicon-save"></span></button>
+        </div>
+
+        <div ng-repeat="item in brdCtrl.stickers">
+            <div drag-item data-obj="item" class="col-md-2" style="background-color:yellow;">
+                <p><a class="text-danger" ng-click="brdCtrl.removeItem(item)"><span class="glyphicon glyphicon-remove"></span></a></p>
+                <p><input class="form-control" ng-model="item.title" /></p>
+                <textarea ng-model="item.value"></textarea>
+                <button class="btn btn-default" ng-click="brdCtrl.submitItem(item)">Submit</button>
+            </div>
+        </div>
+
+        
+        <div ng-repeat="item in brdCtrl.comments">
+            <div drag-item data-obj="item" class="col-md-2" style="background-color: darkgray;">
+                <p><a class="text-danger" ng-click="brdCtrl.removeItem(item)"><span class="glyphicon glyphicon-remove"></span></a></p>
+                <p>{{item.owner.name}} : {{item.date}}</p>
+                <textarea ng-model="item.value"></textarea>
+                <button class="btn btn-default" ng-click="brdCtrl.submitItem(item)">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,1 @@
+﻿var boardModule = angular.module('boardModule', []);

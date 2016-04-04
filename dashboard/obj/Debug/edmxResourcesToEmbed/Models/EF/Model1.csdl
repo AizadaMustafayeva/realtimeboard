@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="localDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Doc" Relationship="Self.FK_Doc_Onwer" FromRole="AspNetUsers" ToRole="Doc" />
+    <NavigationProperty Name="DocComment" Relationship="Self.FK_DocComment_Owner" FromRole="AspNetUsers" ToRole="DocComment" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Group_AspUser" FromRole="AspNetUsers" ToRole="Group" />
+    <NavigationProperty Name="GroupUsers" Relationship="Self.FK_GroupUsers_User" FromRole="AspNetUsers" ToRole="GroupUsers" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="localDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="localDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="Board" Relationship="localDBModel.FK_Board_AspNetUsers" FromRole="AspNetUsers" ToRole="Board" />
+    <NavigationProperty Name="BoardItem" Relationship="localDBModel.FK_BoardItem_ToBoard" FromRole="AspNetUsers" ToRole="BoardItem" />
+    <NavigationProperty Name="AspNetRoles" Relationship="localDBModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+    <NavigationProperty Name="BoardGroup" Relationship="localDBModel.FK_BoardGroup_ToAspNetUsers" FromRole="AspNetUsers" ToRole="BoardGroup" />
+  </EntityType>
+  <EntityType Name="Doc">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="OwnerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TypeId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Int32" />
+    <Property Name="GroupId" Type="Int32" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Doc_Onwer" FromRole="Doc" ToRole="AspNetUsers" />
+    <NavigationProperty Name="DocType" Relationship="Self.FK_Doc_Category" FromRole="Doc" ToRole="DocType" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Doc_Group" FromRole="Doc" ToRole="Group" />
+    <NavigationProperty Name="DocComment" Relationship="Self.FK_DocComment_Doc" FromRole="Doc" ToRole="DocComment" />
+  </EntityType>
+  <EntityType Name="DocComment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="CommentOwner" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DocId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_DocComment_Owner" FromRole="DocComment" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Doc" Relationship="Self.FK_DocComment_Doc" FromRole="DocComment" ToRole="Doc" />
+  </EntityType>
+  <EntityType Name="DocType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Doc" Relationship="Self.FK_Doc_Category" FromRole="DocType" ToRole="Doc" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsDeleted" Type="Int32" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Group_AspUser" FromRole="Group" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Doc" Relationship="Self.FK_Doc_Group" FromRole="Group" ToRole="Doc" />
+    <NavigationProperty Name="GroupUsers" Relationship="Self.FK_GroupUsers_Group" FromRole="Group" ToRole="GroupUsers" />
+  </EntityType>
+  <EntityType Name="GroupUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_GroupUsers_User" FromRole="GroupUsers" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_GroupUsers_Group" FromRole="GroupUsers" ToRole="Group" />
+  </EntityType>
+  <Association Name="FK_Doc_Onwer">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Doc" Type="Self.Doc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Doc">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocComment_Owner">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="DocComment" Type="Self.DocComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DocComment">
+        <PropertyRef Name="CommentOwner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Group_AspUser">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Group" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Group">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUsers_User">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="GroupUsers" Type="Self.GroupUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUsers">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Doc_Category">
+    <End Role="DocType" Type="Self.DocType" Multiplicity="1" />
+    <End Role="Doc" Type="Self.Doc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DocType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Doc">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Doc_Group">
+    <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+    <End Role="Doc" Type="Self.Doc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Doc">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocComment_Doc">
+    <End Role="Doc" Type="Self.Doc" Multiplicity="1" />
+    <End Role="DocComment" Type="Self.DocComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doc">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DocComment">
+        <PropertyRef Name="DocId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUsers_Group">
+    <End Role="Group" Type="Self.Group" Multiplicity="1" />
+    <End Role="GroupUsers" Type="Self.GroupUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUsers">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="localDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+    <EntitySet Name="Doc" EntityType="Self.Doc" />
+    <EntitySet Name="DocComment" EntityType="Self.DocComment" />
+    <EntitySet Name="DocType" EntityType="Self.DocType" />
+    <EntitySet Name="Group" EntityType="Self.Group" />
+    <EntitySet Name="GroupUsers" EntityType="Self.GroupUsers" />
+    <AssociationSet Name="FK_Doc_Onwer" Association="Self.FK_Doc_Onwer">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Doc" EntitySet="Doc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocComment_Owner" Association="Self.FK_DocComment_Owner">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="DocComment" EntitySet="DocComment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Group_AspUser" Association="Self.FK_Group_AspUser">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Group" EntitySet="Group" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUsers_User" Association="Self.FK_GroupUsers_User">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="GroupUsers" EntitySet="GroupUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Doc_Category" Association="Self.FK_Doc_Category">
+      <End Role="DocType" EntitySet="DocType" />
+      <End Role="Doc" EntitySet="Doc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Doc_Group" Association="Self.FK_Doc_Group">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="Doc" EntitySet="Doc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocComment_Doc" Association="Self.FK_DocComment_Doc">
+      <End Role="Doc" EntitySet="Doc" />
+      <End Role="DocComment" EntitySet="DocComment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUsers_Group" Association="Self.FK_GroupUsers_Group">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="GroupUsers" EntitySet="GroupUsers" />
+    </AssociationSet>
+    <EntitySet Name="C__MigrationHistory" EntityType="localDBModel.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="localDBModel.AspNetRoles" />
+    <EntitySet Name="AspNetUserClaims" EntityType="localDBModel.AspNetUserClaims" />
+    <EntitySet Name="AspNetUserLogins" EntityType="localDBModel.AspNetUserLogins" />
+    <EntitySet Name="Board" EntityType="localDBModel.Board" />
+    <EntitySet Name="BoardItem" EntityType="localDBModel.BoardItem" />
+    <EntitySet Name="BoardItemType" EntityType="localDBModel.BoardItemType" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="localDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="localDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Board_AspNetUsers" Association="localDBModel.FK_Board_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Board" EntitySet="Board" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BoardItem_ToBoard" Association="localDBModel.FK_BoardItem_ToBoard">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="BoardItem" EntitySet="BoardItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BoardItem_ToItemType" Association="localDBModel.FK_BoardItem_ToItemType">
+      <End Role="BoardItemType" EntitySet="BoardItemType" />
+      <End Role="BoardItem" EntitySet="BoardItem" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="localDBModel.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="BoardGroup" EntityType="localDBModel.BoardGroup" />
+    <AssociationSet Name="FK_BoardGroup_ToAspNetUsers" Association="localDBModel.FK_BoardGroup_ToAspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="BoardGroup" EntitySet="BoardGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BoardGroup_ToBoard" Association="localDBModel.FK_BoardGroup_ToBoard">
+      <End Role="Board" EntitySet="Board" />
+      <End Role="BoardGroup" EntitySet="BoardGroup" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="localDBModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="localDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="localDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="Board">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OwnerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="localDBModel.FK_Board_AspNetUsers" FromRole="Board" ToRole="AspNetUsers" />
+    <NavigationProperty Name="BoardGroup" Relationship="localDBModel.FK_BoardGroup_ToBoard" FromRole="Board" ToRole="BoardGroup" />
+  </EntityType>
+  <EntityType Name="BoardItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TypeId" Type="Int32" />
+    <Property Name="BoardId" Type="Int32" />
+    <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="PositionX" Type="Double" />
+    <Property Name="PositionY" Type="Double" />
+    <Property Name="ZIndex" Type="Int32" />
+    <NavigationProperty Name="AspNetUsers" Relationship="localDBModel.FK_BoardItem_ToBoard" FromRole="BoardItem" ToRole="AspNetUsers" />
+    <NavigationProperty Name="BoardItemType" Relationship="localDBModel.FK_BoardItem_ToItemType" FromRole="BoardItem" ToRole="BoardItemType" />
+  </EntityType>
+  <EntityType Name="BoardItemType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="BoardItem" Relationship="localDBModel.FK_BoardItem_ToItemType" FromRole="BoardItemType" ToRole="BoardItem" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="localDBModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="localDBModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="localDBModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="localDBModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Board_AspNetUsers">
+    <End Type="localDBModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+    <End Type="localDBModel.Board" Role="Board" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Board">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BoardItem_ToBoard">
+    <End Type="localDBModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+    <End Type="localDBModel.BoardItem" Role="BoardItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BoardItem">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BoardItem_ToItemType">
+    <End Type="localDBModel.BoardItemType" Role="BoardItemType" Multiplicity="0..1" />
+    <End Type="localDBModel.BoardItem" Role="BoardItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BoardItemType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BoardItem">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="localDBModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+    <End Type="localDBModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+  </Association>
+  <EntityType Name="BoardGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="BoardId" Type="Int32" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="localDBModel.FK_BoardGroup_ToAspNetUsers" FromRole="BoardGroup" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Board" Relationship="localDBModel.FK_BoardGroup_ToBoard" FromRole="BoardGroup" ToRole="Board" />
+  </EntityType>
+  <Association Name="FK_BoardGroup_ToAspNetUsers">
+    <End Type="localDBModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+    <End Type="localDBModel.BoardGroup" Role="BoardGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BoardGroup">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BoardGroup_ToBoard">
+    <End Type="localDBModel.Board" Role="Board" Multiplicity="0..1" />
+    <End Type="localDBModel.BoardGroup" Role="BoardGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Board">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BoardGroup">
+        <PropertyRef Name="BoardId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

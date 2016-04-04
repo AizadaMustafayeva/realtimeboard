@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<div class="row" ng-controller="addDocController as ctrl" ng-init="ctrl.init()">
+    <div class="col-md-6">
+        <div><input class="form-control" ng-model="ctrl.currentDoc.title" placeholder="Title" /></div>
+        <div>
+            <h3>Type</h3>
+            <select class="form-control" ng-options="item.title for item in ctrl.docTypes" ng-model="ctrl.selectedDocType" ng-change="docTypeSelected(item)"></select>
+        </div>
+
+        <div>
+            <h3>Groups</h3>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="item in ctrl.groups" ng-class="{'active': ctrl.selectedGroup.id == item.id}" ng-click="ctrl.groupSelect(item)">{{item.title}}</li>
+            </ul>
+        </div>
+        <button class="btn btn-success btn-lg" ng-click="ctrl.create()">Create</button>
+    </div>
+    <div class="col-md-6">
+        <h3>Users (count: {{ctrl.users.length}})</h3>
+        <table class="table">
+            <tbody>
+                <tr ng-repeat="item in ctrl.users">
+                    <td>{{item.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

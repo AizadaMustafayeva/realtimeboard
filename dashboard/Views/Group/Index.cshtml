@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div ng-controller="groupController as grCtrl" ng-init="grCtrl.init()">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#dv_myGroups" aria-controls="dv_myGroups" role="tab" data-toggle="tab">My</a></li>
+        <li role="presentation"><a href="#dv_anotherGroup" aria-controls="dv_anotherGroup" role="tab" data-toggle="tab" ng-click="grCtrl.loadAnotherGroups()">Another</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="dv_myGroups">
+            <!--start pane-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Groups</h2>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="grCtrl.title" placeholder="Title">
+                        </div>
+                        <div>
+                            <button class="btn btn-default" type="button" ng-click="grCtrl.addGroup()"><span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span></button>
+                            <button class="btn btn-default" type="button" ng-click="grCtrl.removeGroup()"><span class="glyphicon glyphicon-remove text-muted" aria-hidden="true" ng-class="{'text-danger': grCtrl.groupSelected !== null}"></span></button>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div>
+                        <ul class="list-group">
+                            <li ng-repeat="item in grCtrl.groups" class="list-group-item" ng-click="grCtrl.selectGroup(item)" ng-class="{'active': grCtrl.groupSelected == item}">
+                                {{item.id}} : {{item.title}} | Owner: {{item.Owner.name}}
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-md-8">
+                    <h2>People</h2>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Adding person
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <p>
+                                    <input type="text" class="form-control" ng-model="grCtrl.personSearchName" placeholder="Search">
+                                </p>
+                                <table class="table" style="max-height:250px;">
+                                    <tr ng-repeat="item in grCtrl.allPersons | filter:grCtrl.personSearchName">
+                                        <td>{{item.name}}</td>
+                                        <td><button class="btn btn-default" ng-click="grCtrl.addIntoGroup(item)"><span class="glyphicon glyphicon-plus text-success" aria-hidden="true"></span></button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <h3>In Group</h3>
+                    <table class="table" style="max-height:450px">
+                        <tr ng-repeat="item in grCtrl.groupUsers">
+                            <td>{{item.name}}</td>
+                            <td><button class="btn btn-default" ng-click="grCtrl.removeIntoGroup(item)"><span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span></button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!--end pane-->
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="dv_anotherGroup">
+            <!--start pane-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Groups</h2>
+                    <ul class="list-group">
+                        <li ng-repeat="item in grCtrl.secondGroups" class="list-group-item" ng-click="grCtrl.selectSecondGroup(item)" ng-class="{'active': grCtrl.secondGroupSelected == item}">
+                            {{item.id}} : {{item.title}}
+                            <button class="btn btn-default" type="button" ng-click="grCtrl.leaveAnotherGroup(item)"><span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span></button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <h2>Users</h2>
+                    <table class="table" style="max-height:450px">
+                        <tr ng-repeat="item in grCtrl.secondGroupUsers">
+                            <td>{{item.name}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!--end pane-->
+        </div>
+    </div>
+
+    
+</div>
+

@@ -1,0 +1,1 @@
+﻿var docModule = angular.module('docModule', ['textAngular']);

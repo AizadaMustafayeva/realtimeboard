@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container" ng-controller="personController as ctrl">
+    <div class="row" ng-init="ctrl.init()">
+        <div class="col-md-8">
+            <section>
+                <h4>Person page</h4>
+                <div class="form-group">
+                    <label class="control-label">Id:</label>
+                    <input type="text" ng-model="ctrl.person.id" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Name:</label>
+                    <input type="text" ng-model="ctrl.person.name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">E-Mail:</label>
+                    <input type="text" ng-model="ctrl.person.mail" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="button" value="Save" class="btn btn-default" ng-click="ctrl.saveName()" />
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+

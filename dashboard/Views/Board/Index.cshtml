@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row" ng-controller="boardListController as boardCtrl" ng-init="boardCtrl.init()">
+    <div class=" col-md-8">
+    <div class="row">
+        <div class="col-md-10">
+            <input class="form-control" ng-model="boardCtrl.newBoardTitle" placeholder="Board title..." />
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success" ng-click="boardCtrl.createBoard()"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+    </div>
+
+    <div>
+        <h3>My boards</h3>
+        <ul class="list-group" style="height:300px; overflow-y:scroll">
+            <li ng-repeat="item in boardCtrl.myBoards" ng-click="boardCtrl.myBoardSelect(item)" class="list-group-item" ng-class="{'list-group-item-info': item.id == boardCtrl.myBoardSeleted.id}">
+                {{item.title}} <a class="text-primary" href="/board/Board/{{item.id}}"><span class="glyphicon glyphicon-menu-right"></span></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>All users</h3>
+            <p><input class="form-control" ng-model="boardCtrl.seatchAllUser" /></p>
+            <ul class="list-group" style="height:300px; overflow-y:scroll">
+                <li ng-repeat="item in boardCtrl.allUsers | filter:boardCtrl.seatchAllUser" class="list-group-item">
+                    {{item.name}} <a class="text-success" ng-click="boardCtrl.addUser(item)"><span class="glyphicon glyphicon-plus"></span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Added users</h3>
+            <ul class="list-group" style="height:300px; overflow-y:scroll">
+                <li ng-repeat="item in boardCtrl.myBoardUsers" class="list-group-item">
+                    {{item.name}} <a class="text-danger" ng-click="boardCtrl.removeUser(item)"><span class="glyphicon glyphicon-remove"></span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+    <div class="col-md-4">
+        <div>
+            <h3>Another boards</h3>
+            <ul class="list-group" style="height:350px; overflow-y:scroll">
+                <li ng-repeat="item in boardCtrl.anotherBoards" ng-click="boardCtrl.anotherBoardSelect(item)" class="list-group-item" ng-class="{'list-group-item-info': item.id == boardCtrl.anotherBoardSeleted.id}">
+                    {{item.title}} <a class="text-primary" href="/board/Board/{{item.id}}"><span class="glyphicon glyphicon-menu-right"></span></a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h3>Users in board</h3>
+            <ul class="list-group" style="height:350px; overflow-y:scroll">
+                <li ng-repeat="item in boardCtrl.anotherBoardUsers" class="list-group-item">{{item.name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+

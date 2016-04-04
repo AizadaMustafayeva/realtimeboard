@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <div class="col-md-2 mainMenu">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="/Person">My Page</a></li>
+            <li><a href="/Group">Groups</a></li>
+            <li><a href="/Doc">Docs</a></li>
+            <li><a href="/Board">Board</a></li>
+        </ul>
+    </div>
+}
+else
+{
+    <div></div>
+}
+
